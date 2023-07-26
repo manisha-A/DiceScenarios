@@ -79,23 +79,12 @@ end
 
 And(/^I add (.*) tickets$/) do |ticket_allocation|
   #Tickets widget
-  @driver.find_element(:css,'[data-id="stepIndicator[tickets]"]').click
 
-  expect(@driver.find_element(:css,'[data-id="wizardStep[tickets]"]').text).to include('Tickets')
 
-  #Add a ticket
-  add_ticket = @driver.find_element(:css,'[data-id="wizardStep[tickets]"] button')
-  sleep(3)
-  add_ticket.click
-
-  @driver.find_element(:css,'[name="faceValue"]').send_keys "10.00"
   # @driver.find_element(:css,'[name="allocation"]').clear
-  sleep(3)
-  # @driver.execute_script("arguments[0].value = ''", @driver.find_element(:css,'[name="allocation"]'));
-  @driver.find_element(:css,'[name="allocation"]').send_keys ""
-  @driver.find_element(:css,'[name="allocation"]').send_keys ticket_allocation
 
-  @driver.find_element(:css,'.Modal__ModalFooter-sc-1pb5y5w-7 button').click
+
+
 
   allocated_tickets = @driver.find_element(:css,'[data-id="ticketSummary.totalAllocation"]')
   @driver.execute_script("arguments[0].scrollIntoView(true);", allocated_tickets)
@@ -119,4 +108,29 @@ end
 
 Then(/^the event should be published$/) do
   # expect(@driver.find_element(:css,'.EventSuccess__HeaderText-sc-iib5cz-2').text).to include('your event’s been published')
+end
+
+And(/^I add tickets for (.*)$/) do |ticket_type|
+  @driver.find_element(:css,'[data-id="stepIndicator[tickets]"]').click
+  expect(@driver.find_element(:css,'[data-id="wizardStep[tickets]"]').text).to include('Tickets')
+
+  #Add a ticket
+  case ticket_type
+  when "Standing" then
+    add_ticket = @driver.find_element(:css,'[data-id="wizardStep[tickets]"] button')
+    sleep(3)
+    add_ticket.click
+    @driver.find_element(:css,'[data-id="iconButton[standing]"]').click
+  when "Unreserved seating" then
+    @driver.find_element(:css,'.ListAddButton__AddButton-sc-f24vz4-0').click
+    @driver.find_element(:css,'[data-id="iconButton[unreserved_seating]"]').click
+  end
+
+  @driver.find_element(:css,'[name="faceValue"]').send_keys "10.00"
+
+  sleep(3)
+  # @driver.execute_script("arguments[0].value = ''", @driver.find_element(:css,'[name="allocation"]'));
+  @driver.find_element(:css,'[name="allocation"]').send_keys ""
+  @driver.find_element(:css,'[name="allocation"]').send_keys 2
+  @driver.find_element(:css,'.Modal__ModalFooter-sc-1pb5y5w-7 button').click
 end

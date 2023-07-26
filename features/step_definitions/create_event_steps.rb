@@ -2,14 +2,6 @@ require 'rubygems'
 require 'rspec'
 require 'date'
 
-Given(/^setup$/) do
-  pending
-end
-
-Then(/^this should happen$/) do
-
-end
-
 And(/^I am logged in to MIO as mio user$/) do
   @driver.find_element(:css,'[name="email"]').send_keys 'client_admin_auto@dice.fm'
   @driver.find_element(:css,'[name="password"]').send_keys 'musicforever'
@@ -28,27 +20,6 @@ When(/^I create a new event$/) do
   # verify on New Event landing page
   get_page_title = @driver.find_element(:css, '.Page__PageTitle-sc-qnn1er-3').text
   expect(get_page_title).to eq('New event')
-end
-
-And(/^I enter event details$/) do
-  #Timeline
-  @driver.find_element(:css,'[data-id="stepIndicator[timeline]"]').click
-
-  @driver.find_element(:css,'[data-id="stepIndicator[settings]"]').click
-
-  @driver.find_element(:css,'[data-id="saveButton"]').click
-  sleep(5)
-
-  # @driver.find_element(:css,'[data-id="save"]').click
-
-  # Assert modal
-  expect(@driver.find_element(:css,'.Modal__ModalDialog-sc-1pb5y5w-2').text).to include('Review details')
-
-  # create event
-  # @driver.find_element(:css,'.Modal__ModalFooter-sc-1pb5y5w-7 button').click
-
-  # expect(@driver.find_element(:css,'.EventSuccess__HeaderText-sc-iib5cz-2').text).to include('your event’s been published')
-
 end
 
 Given(/^I am on MIO website$/) do
@@ -71,6 +42,8 @@ end
 
 And(/^I fill in event timeline$/) do
   #timezoneName
+  #Timeline
+  @driver.find_element(:css,'[data-id="stepIndicator[timeline]"]').click
 
   todays_date = Date.today
   event_announce_day = Date.today - 1
@@ -127,4 +100,23 @@ And(/^I add (.*) tickets$/) do |ticket_allocation|
   allocated_tickets = @driver.find_element(:css,'[data-id="ticketSummary.totalAllocation"]')
   @driver.execute_script("arguments[0].scrollIntoView(true);", allocated_tickets)
   # expect(ticket_allocation.text).to eq('2')
+end
+
+And(/^I save event and continue$/) do
+  @driver.find_element(:css,'[data-id="stepIndicator[settings]"]').click
+
+  @driver.find_element(:css,'[data-id="saveButton"]').click
+  sleep(5)
+end
+
+And(/^I submit event$/) do
+  # Assert modal
+  expect(@driver.find_element(:css,'.Modal__ModalDialog-sc-1pb5y5w-2').text).to include('Review details')
+
+  # create event
+  # @driver.find_element(:css,'.Modal__ModalFooter-sc-1pb5y5w-7 button').click
+end
+
+Then(/^the event should be published$/) do
+  # expect(@driver.find_element(:css,'.EventSuccess__HeaderText-sc-iib5cz-2').text).to include('your event’s been published')
 end

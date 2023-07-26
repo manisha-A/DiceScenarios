@@ -27,6 +27,7 @@ GEM
       cucumber-messages (~> 18.0, >= 18.0.0)
     cucumber-messages (18.0.0)
     cucumber-tag-expressions (4.1.0)
+    date (0.0.1)
     diff-lcs (1.5.0)
     ffi (1.15.5)
     mime-types (3.4.1)
@@ -60,6 +61,7 @@ PLATFORMS
 
 DEPENDENCIES
   cucumber
+  date (~> 0.0.1)
   rspec (~> 3.12)
   selenium-webdriver (~> 4.1.0)
 

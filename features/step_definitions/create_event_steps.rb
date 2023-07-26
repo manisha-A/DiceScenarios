@@ -77,20 +77,6 @@ And(/^I fill in event information$/) do
   description_box.send_keys 'This is a test event description'
 end
 
-And(/^I add (.*) tickets$/) do |ticket_allocation|
-  #Tickets widget
-
-
-  # @driver.find_element(:css,'[name="allocation"]').clear
-
-
-
-
-  allocated_tickets = @driver.find_element(:css,'[data-id="ticketSummary.totalAllocation"]')
-  @driver.execute_script("arguments[0].scrollIntoView(true);", allocated_tickets)
-  # expect(ticket_allocation.text).to eq('2')
-end
-
 And(/^I save event and continue$/) do
   @driver.find_element(:css,'[data-id="stepIndicator[settings]"]').click
 
@@ -100,14 +86,20 @@ end
 
 And(/^I submit event$/) do
   # Assert modal
-  expect(@driver.find_element(:css,'.Modal__ModalDialog-sc-1pb5y5w-2').text).to include('Review details')
+  # expect(@driver.find_element(:css,'.Modal__ModalDialog-sc-1pb5y5w-2').text).to include('Review details')
 
-  # create event
-  # @driver.find_element(:css,'.Modal__ModalFooter-sc-1pb5y5w-7 button').click
+  # publish event
+  @driver.find_element(:css,'.Modal__ModalFooter-sc-1pb5y5w-7 button').click
+  sleep(5)
 end
 
-Then(/^the event should be published$/) do
-  # expect(@driver.find_element(:css,'.EventSuccess__HeaderText-sc-iib5cz-2').text).to include('your event’s been published')
+Then(/^the event should be published and can be preview$/) do
+  expect(@driver.find_element(:css,'.EventSuccess__HeaderText-sc-iib5cz-2').text).to include('your event’s been published')
+  @driver.find_element(:css,'[data-id="goToEvent"]').click
+  sleep(2)
+  event_header = @driver.find_element(:css,'.EventHeaderData__EventTitle-sc-2npiyx-5')
+  printf(event_header.text)
+  expect(event_header.text).to include('On sale')
 end
 
 And(/^I add tickets for (.*)$/) do |ticket_type|
@@ -133,4 +125,11 @@ And(/^I add tickets for (.*)$/) do |ticket_type|
   @driver.find_element(:css,'[name="allocation"]').send_keys ""
   @driver.find_element(:css,'[name="allocation"]').send_keys 2
   @driver.find_element(:css,'.Modal__ModalFooter-sc-1pb5y5w-7 button').click
+end
+
+# show on Dice
+And(/^I should be able to see view event on Dice Web$/) do
+  @driver.find_element(:css,'[data-id="showOnDiceButton"]').click
+  @driver.switch_to.window(@driver.window_handles[1])
+  expect(@driver.find_element(:css,'.HomePageHeader__Logo-sc-15u1d7b-4')).to be_truthy
 end

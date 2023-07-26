@@ -11,7 +11,8 @@ Feature: This feature tests that mio user can create event on MIO platform
     And I add tickets for <second_ticket_type>
     And I save event and continue
     And I submit event
-    Then the event should be published
+    Then the event should be published and can be preview
+    And I should be able to see view event on Dice Web
 
     Examples:
       | genre      | venue_name           | first_ticket_type | second_ticket_type |

@@ -13,7 +13,12 @@ Feature: This feature tests that mio user can create event on MIO platform
     And I submit event
     Then the event should be published and can be preview
     And I should be able to see view event on Dice Web
+    When I proceed to buy tickets on Dice events home page
+    And I purchase tickets for <second_ticket_type>
+    And I enter details as a new user
+    And I enter card details
 
     Examples:
       | genre      | venue_name           | first_ticket_type | second_ticket_type |
       | deep house | DICE VENUE in London | Standing          | Unreserved seating |
+

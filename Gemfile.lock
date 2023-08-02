@@ -3,6 +3,7 @@ GEM
   specs:
     builder (3.2.4)
     childprocess (4.1.0)
+    concurrent-ruby (1.2.2)
     cucumber (8.0.0)
       builder (~> 3.2, >= 3.2.4)
       cucumber-ci-environment (~> 9.0, >= 9.0.4)
@@ -27,13 +28,26 @@ GEM
       cucumber-messages (~> 18.0, >= 18.0.0)
     cucumber-messages (18.0.0)
     cucumber-tag-expressions (4.1.0)
+    data_magic (1.2)
+      faker (>= 1.1.2)
+      yml_reader (>= 0.6)
     date (0.0.1)
     diff-lcs (1.5.0)
+    faker (2.22.0)
+      i18n (>= 1.8.11, < 2)
     ffi (1.15.5)
+    i18n (1.14.1)
+      concurrent-ruby (~> 1.0)
     mime-types (3.4.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2023.0218.1)
     multi_test (1.1.0)
+    page-object (2.3.1)
+      page_navigation (>= 0.10)
+      watir (>= 6.10.3)
+    page_navigation (0.10)
+      data_magic (>= 0.22)
+    regexp_parser (2.8.1)
     rexml (3.2.5)
     rspec (3.12.0)
       rspec-core (~> 3.12.0)
@@ -55,6 +69,10 @@ GEM
       rubyzip (>= 1.2.2)
     sys-uname (1.2.3)
       ffi (~> 1.1)
+    watir (7.1.0)
+      regexp_parser (>= 1.2, < 3)
+      selenium-webdriver (~> 4.0)
+    yml_reader (0.7)
 
 PLATFORMS
   ruby
@@ -62,6 +80,7 @@ PLATFORMS
 DEPENDENCIES
   cucumber
   date (~> 0.0.1)
+  page-object (~> 2.0)
   rspec (~> 3.12)
   selenium-webdriver (~> 4.1.0)
 

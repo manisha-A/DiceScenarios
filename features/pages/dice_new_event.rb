@@ -72,10 +72,10 @@ class DiceNewEvent
   def fill_in_event_details(event_title, genre, venue_name)
     self.basic_widget_title = event_title
 
+    execute_script('arguments[0].scrollIntoView(true);',basic_widget_title_element)
     self.basic_widget_genre = genre
     sleep 4
-    puts "*************"
-    puts self.dice_new_event_page_title
+
     self.basic_widget_menu_options_element.click
 
     execute_script('arguments[0].scrollIntoView(true);',basic_widget_genre_element)

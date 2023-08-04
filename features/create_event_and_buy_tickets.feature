@@ -1,4 +1,4 @@
-Feature: This feature tests that mio user can create event on MIO platform
+Feature: This feature tests that mio user can create event on MIO platform and a fan can buy a ticket on MIO web platform
 
   Scenario Outline: Create and publish an event as MIO user
     Given I am on MIO website

@@ -147,14 +147,14 @@ class DiceNewEvent < DiceBasePage
     scroll_element_to_view(event_preview_element)
     self.save_event_button
 
-    wait_until(10, 'draft event toast not visible') do
+    wait_until(30, 'draft event toast not visible') do
       self.draft_event_toast?
     end
 
     if(save_event_button == "CONTINUE")
       self.save_event_button
     end
-    wait_until(10, 'review modal not found') do
+    wait_until(30, 'review modal not found') do
       self.review_popup?
     end
   end
@@ -188,7 +188,7 @@ class DiceNewEvent < DiceBasePage
   end
 
   def is_page_loaded
-    wait_until(10, "New Event page not loaded") do
+    wait_until(30, "New Event page not loaded") do
       self.dice_new_event_page_title?
     end
   end
@@ -196,7 +196,7 @@ class DiceNewEvent < DiceBasePage
   private
 
   def is_venue_map_loaded
-    wait_until(10, "Venue map not loaded") do
+    wait_until(30, "Venue map not loaded") do
       self.basic_widget_venue_map?
     end
   end

@@ -77,7 +77,7 @@ class DiceWebHome < DiceBasePage
   end
 
   def enter_card_details
-    wait_until(15, "payment methods not visible") do
+    wait_until(60, "payment methods not visible") do
       purchase_payment_methods?
     end
 

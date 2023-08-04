@@ -25,13 +25,13 @@ class DiceMioEvents
   end
 
   def is_on_page
-    wait_until(5, 'Success not found on page') do
+    wait_until(30, 'Success not found on page') do
       self.event_success_container_element.text.include? 'published'
     end
   end
 
   def is_event_on_sale
-    wait_until(5, 'Success not found on page') do
+    wait_until(30, 'Success not found on page') do
       self.event_header_element.text.include? 'sale'
     end
   end

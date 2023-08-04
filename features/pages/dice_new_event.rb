@@ -100,8 +100,8 @@ class DiceNewEvent < DiceBasePage
     todays_date = Date.today
     event_announce_date = Date.today - 1
     off_sale_date = Date.today + 1
-    event_start_date = Date.today + 4
-    event_end_date = Date.today + 5
+    event_start_date = Date.today + 6
+    event_end_date = Date.today + 7
 
     self.timeline_widget_announce_date = format_event_date(event_announce_date)
     self.timeline_widget_on_sale_date = format_event_date(todays_date)
@@ -115,7 +115,7 @@ class DiceNewEvent < DiceBasePage
   end
 
   def upload_event_image()
-    file_to_upload = Dir.pwd + "/features/support/test_data/image.jpg"
+    file_to_upload = Dir.pwd + "/features/support/test_data/event_picture.jpg"
     self.information_widget_upload_image = file_to_upload
   end
 

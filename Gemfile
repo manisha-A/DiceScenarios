@@ -6,3 +6,4 @@ gem "rspec", "~> 3.12"
 gem "selenium-webdriver", "~> 4.1.0"
 gem 'date', '~> 0.0.1'
 gem 'page-object', '~> 2.0'
+gem 'rake', '~> 13.0', '>= 13.0.6'

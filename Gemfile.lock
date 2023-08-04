@@ -47,6 +47,7 @@ GEM
       watir (>= 6.10.3)
     page_navigation (0.10)
       data_magic (>= 0.22)
+    rake (13.0.6)
     regexp_parser (2.8.1)
     rexml (3.2.5)
     rspec (3.12.0)
@@ -81,6 +82,7 @@ DEPENDENCIES
   cucumber
   date (~> 0.0.1)
   page-object (~> 2.0)
+  rake (~> 13.0, >= 13.0.6)
   rspec (~> 3.12)
   selenium-webdriver (~> 4.1.0)
 

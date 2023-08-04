@@ -6,6 +6,7 @@ class DiceBasePage
 
   def select_menu_option(menu_options, value)
     menu_options.each { |option|
+      puts option.text
       if option.text.include? value
         option.click
         break

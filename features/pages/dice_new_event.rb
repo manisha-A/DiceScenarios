@@ -181,7 +181,6 @@ class DiceNewEvent < DiceBasePage
   end
 
   def select_event_timezone(timezone)
-    execute_script('arguments[0].scrollIntoView(true);', basic_widget_primary_venue_element)
     self.timeline_widget_timezone_element.click
 
     select_menu_option(self.select_options_elements, timezone)

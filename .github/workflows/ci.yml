@@ -16,3 +16,8 @@ jobs:
         bundler-cache: true
     - name: Run tests
       run: bundle exec rake ci_tests CHROMEDRIVER=${{ github.workspace }}/features/support/driver/chromedriver_mac/chromedriver
+    - name: Save test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: cucumber-feature-report
+        path: features_report.html

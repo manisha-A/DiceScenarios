@@ -147,28 +147,21 @@ class DiceNewEvent < DiceBasePage
     scroll_element_to_view(event_preview_element)
     self.save_event_button
 
-    wait_until(30, 'draft event toast not visible') do
+    wait_until(30, 'Event is not svaed yet') do
       current_url.include? 'edit'
     end
 
-    sleep 10
+    sleep 8
+
     if (review_popup?)
       puts "Reviewing the event"
     else
       submit_button
-      wait_until(30, 'review modal not found') do
+      wait_until(30, 'Review modal not found') do
         self.review_popup?
       end
     end
-
-    # wait_until(30, 'review modal not found') do
-    #
-    # end
   end
-
-  # if(save_event_button == "CONTINUE")
-  #   self.save_event_button
-  # end
 
   def publish_event
     self.submit_event_button

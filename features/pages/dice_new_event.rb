@@ -190,6 +190,12 @@ class DiceNewEvent < DiceBasePage
     select_menu_option(self.select_options_elements, timezone)
   end
 
+  def is_page_loaded
+    wait_until(10, "New Event page not loaded") do
+      self.dice_new_event_page_title?
+    end
+  end
+
   private
 
   def is_venue_map_loaded

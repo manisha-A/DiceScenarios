@@ -22,7 +22,8 @@ end
 
 When(/^I create a new event$/) do
   @dice_new_event_page = DiceNewEvent.new(@driver, true)
-  sleep(5)
+  @dice_new_event_page.is_page_loaded
+  # sleep(5)
   #todo: fix wait time
 
   # verify on New Event landing page
@@ -61,7 +62,7 @@ And(/^I submit event$/) do
   @dice_new_event_page.publish_event
 end
 
-Then(/^the event should be published and can be preview$/) do
+Then(/^the event should be published and can be previewed$/) do
   @dice_events_page = DiceMioEvents.new(@driver)
   @dice_events_page.is_on_page
   expect(@dice_events_page.event_published_message).to include('your event’s been published')

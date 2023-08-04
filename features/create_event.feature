@@ -12,7 +12,7 @@ Feature: This feature tests that mio user can create event on MIO platform
     And I add internal notes
     And I save event and continue
     And I submit event
-    Then the event should be published and can be preview
+    Then the event should be published and can be previewed
     And I should be able to see view event on Dice Web
     When I proceed to buy tickets on Dice events home page
     And I purchase tickets for <second_ticket_type>

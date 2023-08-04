@@ -1,22 +1,25 @@
 require 'page-object'
 require 'selenium-webdriver'
 require 'rspec'
+require 'date'
 
-class DiceNewEvent
-  include PageObject
+class DiceNewEvent < DiceBasePage
 
   page_url "https://mio-aqa-candidates.dc.dice.fm/events/new"
 
   element(:dice_new_event_page_title, :css => '.Page__PageTitle-sc-qnn1er-3')
 
   # Basic widget elements
+  element(:basic_widget_eventType, :css => '[data-id="wizardStep[basics]"] .react-select__indicators')
   text_field(:basic_widget_title, :css => '[name="name"]')
   text_field(:basic_widget_genre, :id => 'genres')
   div(:basic_widget_menu_options, :css => '.react-select__menu')
+  elements(:select_options, :css => '.react-select__option')
   text_field(:basic_widget_primary_venue, :id => 'primaryVenue')
 
   # Timeline widget elements
   list_item(:timeline_widget_step_indicator, :css => '[data-id="stepIndicator[timeline]"]')
+  element(:timeline_widget_timezone, :css => '[data-id="wizardStep[timeline]"] .react-select__indicators')
   text_field(:timeline_widget_announce_date, :css => '[name="announceDate"]')
 
   text_field(:timeline_widget_on_sale_date, :css => '[name="onSaleDate"]')
@@ -65,8 +68,11 @@ class DiceNewEvent
     self.dice_new_event_page_title
   end
 
-  def fill_in_event_details(event_title, genre, venue_name)
-    self.basic_widget_title = event_title
+  def fill_in_event_details(event_type, genre, venue_name)
+    self.basic_widget_eventType_element.click
+
+    select_menu_option(self.select_options_elements, event_type)
+    self.basic_widget_title = generate_event_title
 
     execute_script('arguments[0].scrollIntoView(true);',basic_widget_title_element)
     self.basic_widget_genre = genre
@@ -86,12 +92,18 @@ class DiceNewEvent
     self.timeline_widget_step_indicator
   end
 
-  def fill_in_event_timeline(event_announce_day, todays_date, off_sale_date, event_start_date,event_end_date)
-    self.timeline_widget_announce_date = event_announce_day.strftime("%a, %d %b %Y, %I:%M %p")
-    self.timeline_widget_on_sale_date = todays_date.strftime("%a, %d %b %Y, %I:%M %p")
-    self.timeline_widget_off_sale_date = off_sale_date.strftime("%a, %d %b %Y, %I:%M %p")
-    self.timeline_widget_start_date = event_start_date.strftime("%a, %d %b %Y, %I:%M %p")
-    self.timeline_widget_end_date = event_end_date.strftime("%a, %d %b %Y, %I:%M %p")
+  def fill_in_event_timeline
+    todays_date = Date.today
+    event_announce_date = Date.today - 1
+    off_sale_date = Date.today + 1
+    event_start_date = Date.today + 4
+    event_end_date = Date.today + 5
+
+    self.timeline_widget_announce_date = format_event_date(event_announce_date)
+    self.timeline_widget_on_sale_date = format_event_date(todays_date)
+    self.timeline_widget_off_sale_date = format_event_date(off_sale_date)
+    self.timeline_widget_start_date = format_event_date(event_start_date)
+    self.timeline_widget_end_date = format_event_date(event_end_date)
     sleep 4
   end
 
@@ -99,7 +111,8 @@ class DiceNewEvent
     self.information_widget_step_indicator
   end
 
-  def upload_event_image(file_to_upload)
+  def upload_event_image()
+    file_to_upload = Dir.pwd + "/features/support/test_data/image.jpg"
     self.information_widget_upload_image = file_to_upload
   end
 
@@ -166,4 +179,22 @@ class DiceNewEvent
   def enter_notes
     self.internal_notes = "Internal notes"
   end
+
+  def select_event_timezone(timezone)
+    execute_script('arguments[0].scrollIntoView(true);', basic_widget_primary_venue_element)
+    self.timeline_widget_timezone_element.click
+
+    select_menu_option(self.select_options_elements, timezone)
+  end
+
+  private
+
+  def format_event_date(event_date)
+    event_date.strftime("%a, %d %b %Y, %I:%M %p")
+  end
+
+  def generate_event_title
+    "ft. Test Live Gig " + Time.now.to_i.to_s
+  end
+
 end

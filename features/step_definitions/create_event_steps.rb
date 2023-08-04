@@ -1,5 +1,4 @@
 require 'rubygems'
-require 'date'
 require 'rspec'
 require_relative '../pages/dice_mio_login.rb'
 require_relative '../pages/dice_mio_home.rb'
@@ -7,7 +6,7 @@ require_relative '../pages/dice_new_event.rb'
 require_relative '../pages/dice_mio_events.rb'
 
 Given(/^I am on MIO website$/) do
-  @driver.navigate.to "https://mio-aqa-candidates.dc.dice.fm/"          #navigate to MIO website
+  @driver.navigate.to "https://mio-aqa-candidates.dc.dice.fm/"
 end
 
 And(/^I am logged in to MIO as mio user$/) do
@@ -30,32 +29,21 @@ When(/^I create a new event$/) do
   expect(@dice_new_event_page.get_page_title).to eq('New event')
 end
 
-And(/^I enter (.*) and (.*) for event details$/) do |genre, venue_name|
+And(/^I enter (.*),(.*) and (.*) for event details$/) do |event_type, genre, venue_name|
   # enter event details
-  event_title = "ft. Test Live Gig " + Time.now.to_i.to_s
-  @dice_new_event_page.fill_in_event_details(event_title,genre,venue_name)
+  @dice_new_event_page.fill_in_event_details(event_type,genre,venue_name)
 end
 
-And(/^I fill in event timeline$/) do
-  #timezoneName
-  # Enter event Timeline
-
-  todays_date = Date.today
-  event_announce_day = Date.today - 1
-  off_sale_date = Date.today + 1
-  event_start_date = Date.today + 4
-  event_end_date = Date.today + 5
-
+And(/^I fill in event (.*) and timeline$/) do |timezone|
   @dice_new_event_page.go_to_timeline_step
-  @dice_new_event_page.fill_in_event_timeline(event_announce_day,todays_date,off_sale_date,event_start_date,event_end_date)
+  @dice_new_event_page.select_event_timezone(timezone)
+  @dice_new_event_page.fill_in_event_timeline
 end
 
 And(/^I fill in event information$/) do
   # Enter event information
   @dice_new_event_page.go_to_information_step
-
-  file_to_upload = Dir.pwd + "/features/support/test_data/image.jpg"
-  @dice_new_event_page.upload_event_image(file_to_upload)
+  @dice_new_event_page.upload_event_image
 
   description_box = @driver.find_element(:css, '.public-DraftEditor-content')
   description_box.send_keys 'This is a test event description'

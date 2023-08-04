@@ -1,10 +1,13 @@
 name: CI Workflow
-on: [push, pull_request]
+on:
+  pull_request:
+    branches:
+      - main
 permissions:
   contents: read
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v3
     - uses: ruby/setup-ruby@v1
@@ -12,4 +15,10 @@ jobs:
         ruby-version: '2.6.10'
         bundler-cache: true
     - name: Run tests
-      run: bundle exec cucumber --format pretty --format html --out results.html
+      run: bundle exec rake ci_tests CHROMEDRIVER=${{ github.workspace }}/features/support/driver/chromedriver_mac/chromedriver
+    - name: Save test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: cucumber-feature-report
+        path: features_report.html

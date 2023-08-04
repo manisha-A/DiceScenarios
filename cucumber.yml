@@ -1,1 +1,4 @@
-default: --publish-quiet
+local:
+  --publish-quiet --format pretty --format html --out=features_report.html LOCAL=true
+ci:
+  --publish-quiet --format pretty --format html --out=features_report.html -c

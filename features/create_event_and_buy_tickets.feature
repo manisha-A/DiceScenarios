@@ -1,6 +1,6 @@
 Feature: This feature tests that mio user can create event on MIO platform and a fan can buy a ticket on MIO web platform
 
-  Scenario Outline: Create and publish an event as MIO user
+  Scenario Outline: Create and publish a successful event as MIO user and purchase ticket as fan
     Given I am on MIO website
     And I am logged in to MIO as mio user
     When I create a new event

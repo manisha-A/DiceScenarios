@@ -1,6 +1,5 @@
 require 'page-object'
-class DiceWebHome
-  include PageObject
+class DiceWebHome < DiceBasePage
 
   # Dice Mio Web locators
   button(:dice_web_buy_tickets, :css => '.EventDetailsCallToAction__ActionButton-sc-12zjeg-5')
@@ -14,7 +13,6 @@ class DiceWebHome
   element(:select_country_code, :css => '.PhoneField__ListItem-sc-1i75a8x-6')
 
   text_field(:user_phone_number, :css => '.PurchasePhone__SPhoneField-sc-1odqjnb-8 > input')
-  button(:submit_button, :css => '[type="submit"]')
   text_field(:code_input, :css => '.CodeInput__Input-pxula4-2')
 
   # user details locators
@@ -66,7 +64,7 @@ class DiceWebHome
     self.search_country_code = '+44'
     self.select_country_code_element.click
     self.user_phone_number = '7455227865'
-    self.submit_button
+    submitButton
     self.code_input = '1111'
     sleep(5)
 
@@ -81,7 +79,7 @@ class DiceWebHome
     self.user_email = 'firstname.lastname@example.com'
     self.user_dob = '01/01/2001'
     execute_script('arguments[0].scrollIntoView(true);', purchase_form_wrapper_element)
-    self.submit_button
+    submit_button
     sleep 10
   end
   def enter_card_details

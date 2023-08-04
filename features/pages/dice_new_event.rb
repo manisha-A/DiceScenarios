@@ -11,7 +11,6 @@ class DiceNewEvent
 
   # Basic widget elements
   text_field(:basic_widget_title, :css => '[name="name"]')
-  # select(:basic_widget_genre, :id => 'genres')
   text_field(:basic_widget_genre, :id => 'genres')
   div(:basic_widget_menu_options, :css => '.react-select__menu')
   text_field(:basic_widget_primary_venue, :id => 'primaryVenue')
@@ -35,9 +34,7 @@ class DiceNewEvent
   div(:description_id, :id => 'placeholder-4r9kc')
   element(:description_span, :css => '[data-offset-key="9o9dq-0-0"]')
 
-
   text_field(:information_widget_covid, :css => '[name="eventRules.covidPolicyUrl"]')
-
 
   # Tickets widget elements
   list_item(:tickets_widget_step_indicator, :css => '[data-id="stepIndicator[tickets]"]')
@@ -56,7 +53,6 @@ class DiceNewEvent
   element(:added_ticket, :css => 'data-name="ticketTypes"]')
 
   # Settings widget elements
-  # extraNotes
   text_area(:internal_notes, :css => '[name="extraNotes"]')
   div(:event_preview, :css => '.EventPreview__SForm-sc-1s6s4hp-0.hwCQJo')
   list_item(:settings_widget_step_indicator, :css => '[data-id="stepIndicator[settings]"]')
@@ -92,7 +88,6 @@ class DiceNewEvent
 
   def fill_in_event_timeline(event_announce_day, todays_date, off_sale_date, event_start_date,event_end_date)
     self.timeline_widget_announce_date = event_announce_day.strftime("%a, %d %b %Y, %I:%M %p")
-    # execute_script('arguments[0].sendKeys("");',timeline_widget_announce_date)
     self.timeline_widget_on_sale_date = todays_date.strftime("%a, %d %b %Y, %I:%M %p")
     self.timeline_widget_off_sale_date = off_sale_date.strftime("%a, %d %b %Y, %I:%M %p")
     self.timeline_widget_start_date = event_start_date.strftime("%a, %d %b %Y, %I:%M %p")
@@ -110,11 +105,7 @@ class DiceNewEvent
 
   def add_event_description
     execute_script('arguments[0].textContent="This is test description";', description_element)
-    puts description
-    puts "*********"
     sleep 10
-    # self.information_widget_description = description
-    # puts self.information_widget_description
   end
 
   def add_ticket(ticket_type)

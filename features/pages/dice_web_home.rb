@@ -2,6 +2,7 @@ require 'page-object'
 class DiceWebHome
   include PageObject
 
+  # Dice Mio Web locators
   button(:dice_web_buy_tickets, :css => '.EventDetailsCallToAction__ActionButton-sc-12zjeg-5')
   div(:dice_logo, :css => '.HomePageHeader__Logo-sc-15u1d7b-4')
   text_field(:find_an_event, :css => 'InlineSearch__Input-sc-3ue56x-0')
@@ -24,16 +25,14 @@ class DiceWebHome
 
   # card input locators
   element(:purchase_payment_methods, :css => '.PurchasePaymentMethod__PaymentMethods-dtjb3a-7')
-  text_field(:card_number, :css => '[name="cardnumber"]')
-  text_field(:card_expiry_date, :css => '[name="exp-date"]')
-  text_field(:card_cvc, :css => '[name="cvc"]')
   button(:purchase_ticket_button, :css => '.PurchasePaymentMethod__PurchaseTicketsButton-dtjb3a-5')
+  text_field(:postcode, :css => '.Input__InputWrapper-g3cdq3-0 > input')
 
   element(:purchase_form_wrapper, :css => '.PurchaseAccount__FieldsWrapper-vd4vu8-1')
   element(:purchase_alert_popup, :css => '.PurchaseAlert__Container-sc-1hpuona-1')
   button(:purchase_alert_button, :css => '.PurchaseAlert__Button-sc-1hpuona-7')
 
-  text_field(:postcode, :css => '.Input__InputWrapper-g3cdq3-0 > input')
+  # ticket confirmation locators
   element(:ticket_confirmation_box, :css => '.TicketConfirmation__SConfirmationCard-wcouv1-1')
   element(:ticket_confirmation, :css => '.PurchaseCommon__StepTitle-sc-45o8j6-3')
 
@@ -48,7 +47,6 @@ class DiceWebHome
         option.click
       end
     }
-
     sleep 3
     self.checkout_button
   end

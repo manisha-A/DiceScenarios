@@ -161,7 +161,6 @@ class DiceNewEvent < DiceBasePage
 
   def publish_event
     self.submit_event_button
-    sleep 4
   end
 
   def go_to_tickets_step

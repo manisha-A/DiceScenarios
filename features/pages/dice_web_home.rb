@@ -85,7 +85,6 @@ class DiceWebHome < DiceBasePage
       text_field_element(:css => '[name="cardnumber"]', :frame => iframe).set '4111 1111 1111 1111'
       text_field_element(:css => '[name="exp-date"]', :frame => iframe).set '11/24'
       text_field_element(:css => '[name="cvc"]', :frame => iframe).set '123'
-      sleep 2
     end
     self.postcode = 'EC1MED'
     self.purchase_ticket_button

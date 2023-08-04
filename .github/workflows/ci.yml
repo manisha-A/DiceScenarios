@@ -7,7 +7,7 @@ permissions:
   contents: read
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v3
     - uses: ruby/setup-ruby@v1
@@ -15,4 +15,4 @@ jobs:
         ruby-version: '2.6.10'
         bundler-cache: true
     - name: Run tests
-      run: bundle exec cucumber --profile ci CHROMEDRIVER=${{ github.workspace }}/features/support/driver/chromedriver_linux/chromedriver
+      run: bundle exec cucumber --profile ci CHROMEDRIVER=${{ github.workspace }}/features/support/driver/chromedriver_mac/chromedriver

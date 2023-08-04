@@ -1,7 +1,7 @@
 require 'page-object'
 require 'selenium-webdriver'
-require 'rspec'
 require 'date'
+require 'rspec'
 
 class DiceNewEvent < DiceBasePage
 
@@ -80,12 +80,14 @@ class DiceNewEvent < DiceBasePage
 
     scroll_element_to_view(basic_widget_title_element)
     self.basic_widget_genre = genre
+    #todo: fix to remove sleep
     sleep 4
 
     self.basic_widget_menu_options_element.click
 
     scroll_element_to_view(basic_widget_genre_element)
     self.basic_widget_primary_venue = venue_name
+    #todo: fix to remove sleep
     sleep 3
 
     self.basic_widget_menu_options_element.click

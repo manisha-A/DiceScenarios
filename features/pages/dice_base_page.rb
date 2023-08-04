@@ -12,4 +12,8 @@ class DiceBasePage
       end
     }
   end
+
+  def scroll_element_to_view(element)
+    execute_script('arguments[0].scrollIntoView(true);', element)
+  end
 end

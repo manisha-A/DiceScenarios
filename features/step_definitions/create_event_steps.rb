@@ -23,8 +23,6 @@ end
 When(/^I create a new event$/) do
   @dice_new_event_page = DiceNewEvent.new(@driver, true)
   @dice_new_event_page.is_page_loaded
-  # sleep(5)
-  #todo: fix wait time
 
   # verify on New Event landing page
   expect(@dice_new_event_page.get_page_title).to eq('New event')
@@ -68,7 +66,7 @@ Then(/^the event should be published and can be previewed$/) do
   expect(@dice_events_page.event_published_message).to include('your event’s been published')
 
   @dice_events_page.go_to_created_event
-  sleep(2)
+  @dice_events_page.is_event_on_sale
 
   expect(@dice_events_page.event_header.text).to include('On sale')
 end
@@ -91,9 +89,9 @@ And(/^I should be able to see view event on Dice Web$/) do
   @dice_events_page.open_event_on_dice_web
 
   @driver.switch_to.window(@driver.window_handles[1])
-  sleep 10
   @dice_web_home_page = DiceWebHome.new(@driver)
-
+  @dice_web_home_page.is_on_dice_web_home
+  expect(@dice_web_home_page.is_on_dice_web_home).to include('Browse events')
 end
 
 And(/^I add internal notes$/) do

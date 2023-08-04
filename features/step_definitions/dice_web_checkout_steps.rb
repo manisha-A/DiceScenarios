@@ -2,7 +2,6 @@ require 'rubygems'
 require 'rspec'
 
 When(/^I proceed to buy tickets on Dice events home page$/) do
-  @dice_web_home_page = DiceWebHome.new(@driver)
   @dice_web_home_page.buy_tickets
 end
 

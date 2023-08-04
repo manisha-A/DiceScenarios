@@ -2,9 +2,11 @@ require 'page-object'
 class DiceWebHome < DiceBasePage
 
   # Dice Mio Web locators
+  element(:dice_web_header, :css => '.HomePageHeaderLinks__Wrapper-sc-1vbht2z-8')
   button(:dice_web_buy_tickets, :css => '.EventDetailsCallToAction__ActionButton-sc-12zjeg-5')
   div(:dice_logo, :css => '.HomePageHeader__Logo-sc-15u1d7b-4')
   text_field(:find_an_event, :css => 'InlineSearch__Input-sc-3ue56x-0')
+  element(:all_tickets, :css => '.PurchaseTickets__TicketTypes-sc-1hge6pd-16')
   elements(:all_ticket_options, :css => 'ul.PurchaseTickets__TicketTypes-sc-1hge6pd-16 li')
   button(:checkout_button, :css => '.dvVWIh')
   element(:user_phone_field, :css => '.PurchasePhone__Container-sc-1odqjnb-3')
@@ -36,16 +38,18 @@ class DiceWebHome < DiceBasePage
 
   def buy_tickets
     self.dice_web_buy_tickets
-    sleep 4
   end
 
   def purchase_ticket_by_ticket_type(ticket_type)
+    wait_until(10, "Tickets not loaded") do
+      all_tickets?
+    end
     self.all_ticket_options_elements.each { |option|
       if option.text.include? ticket_type
         option.click
       end
     }
-    sleep 3
+
     self.checkout_button
   end
 
@@ -58,7 +62,7 @@ class DiceWebHome < DiceBasePage
   end
 
   def enter_user_phone_details
-    execute_script('arguments[0].scrollIntoView(true);', user_phone_field_element)
+    scroll_element_to_view(user_phone_field_element)
 
     self.phone_country_code
     self.search_country_code = '+44'
@@ -66,22 +70,12 @@ class DiceWebHome < DiceBasePage
     self.user_phone_number = '7455227865'
     submit_button
     self.code_input = '1111'
-    sleep(5)
 
     if(purchase_alert_popup?)
       self.purchase_alert_button
     end
   end
 
-  def enter_user_details
-    self.user_first_name = 'user_first'
-    self.user_last_name = 'user_lasst'
-    self.user_email = 'firstname.lastname@example.com'
-    self.user_dob = '01/01/2001'
-    execute_script('arguments[0].scrollIntoView(true);', purchase_form_wrapper_element)
-    submit_button
-    sleep 10
-  end
   def enter_card_details
     wait_until(15, "payment methods not visible") do
       purchase_payment_methods?
@@ -102,5 +96,9 @@ class DiceWebHome < DiceBasePage
   end
   def get_confirmation_message
     self.ticket_confirmation_element.text
+  end
+
+  def is_on_dice_web_home
+    self.dice_web_header_element.text
   end
 end

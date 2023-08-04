@@ -14,6 +14,7 @@ class DiceNewEvent < DiceBasePage
   text_field(:basic_widget_title, :css => '[name="name"]')
   text_field(:basic_widget_genre, :id => 'genres')
   div(:basic_widget_menu_options, :css => '.react-select__menu')
+  div(:basic_widget_menu_list, :css => '.react-select__menu-list')
   elements(:select_options, :css => '.react-select__option')
   text_field(:basic_widget_primary_venue, :id => 'primaryVenue')
   element(:basic_widget_venue_map, :css => '.MapboxMap__Link-sc-phv1in-0')
@@ -62,6 +63,7 @@ class DiceNewEvent < DiceBasePage
   div(:event_preview, :css => '.EventPreview__SForm-sc-1s6s4hp-0.hwCQJo')
   list_item(:settings_widget_step_indicator, :css => '[data-id="stepIndicator[settings]"]')
   button(:save_event_button, :css => '[data-id="saveButton"]')
+  element(:draft_event_toast, :css => '.NotificationMessage__NotificationMessageText-sc-bpi9fk-2')
 
   button(:submit_event_button, :css => '.Modal__ModalFooter-sc-1pb5y5w-7 button')
   div(:review_popup, :css => '.Modal__ModalDialog-sc-1pb5y5w-2')
@@ -76,16 +78,15 @@ class DiceNewEvent < DiceBasePage
     select_menu_option(self.select_options_elements, event_type)
     self.basic_widget_title = generate_event_title
 
-    execute_script('arguments[0].scrollIntoView(true);',basic_widget_title_element)
+    scroll_element_to_view(basic_widget_title_element)
     self.basic_widget_genre = genre
     sleep 4
 
     self.basic_widget_menu_options_element.click
 
-    execute_script('arguments[0].scrollIntoView(true);',basic_widget_genre_element)
+    scroll_element_to_view(basic_widget_genre_element)
     self.basic_widget_primary_venue = venue_name
-    #todo: scroll to view
-    sleep 4
+    sleep 3
 
     self.basic_widget_menu_options_element.click
     is_venue_map_loaded
@@ -107,7 +108,6 @@ class DiceNewEvent < DiceBasePage
     self.timeline_widget_off_sale_date = format_event_date(off_sale_date)
     self.timeline_widget_start_date = format_event_date(event_start_date)
     self.timeline_widget_end_date = format_event_date(event_end_date)
-    # sleep 4
   end
 
   def go_to_information_step
@@ -117,11 +117,6 @@ class DiceNewEvent < DiceBasePage
   def upload_event_image()
     file_to_upload = Dir.pwd + "/features/support/test_data/image.jpg"
     self.information_widget_upload_image = file_to_upload
-  end
-
-  def add_event_description
-    execute_script('arguments[0].textContent="This is test description";', description_element)
-    sleep 10
   end
 
   def add_ticket(ticket_type)
@@ -149,9 +144,12 @@ class DiceNewEvent < DiceBasePage
 
   def save_new_event
     self.settings_widget_step_indicator
-    execute_script('arguments[0].scrollIntoView(true);', event_preview_element)
+    scroll_element_to_view(event_preview_element)
     self.save_event_button
-    sleep 10
+
+    wait_until(10, 'draft event toast not visible') do
+      self.draft_event_toast?
+    end
 
     if(save_event_button == "CONTINUE")
       self.save_event_button
@@ -168,7 +166,7 @@ class DiceNewEvent < DiceBasePage
 
   def go_to_tickets_step
     self.tickets_widget_step_indicator
-    execute_script('arguments[0].scrollIntoView(true);', tickets_widget_seated_event_element)
+    scroll_element_to_view(tickets_widget_seated_event_element)
   end
 
   def review_modal_text
@@ -184,7 +182,7 @@ class DiceNewEvent < DiceBasePage
   end
 
   def select_event_timezone(timezone)
-    execute_script('arguments[0].scrollIntoView(true);', timeline_widget_header_element)
+    scroll_element_to_view(timeline_widget_header_element)
     self.timeline_widget_timezone_element.click
 
     select_menu_option(self.select_options_elements, timezone)

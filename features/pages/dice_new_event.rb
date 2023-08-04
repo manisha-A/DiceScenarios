@@ -16,9 +16,11 @@ class DiceNewEvent < DiceBasePage
   div(:basic_widget_menu_options, :css => '.react-select__menu')
   elements(:select_options, :css => '.react-select__option')
   text_field(:basic_widget_primary_venue, :id => 'primaryVenue')
+  element(:basic_widget_venue_map, :css => '.MapboxMap__Link-sc-phv1in-0')
 
   # Timeline widget elements
-  list_item(:timeline_widget_step_indicator, :css => '[data-id="stepIndicator[timeline]"]')
+  element(:timeline_widget_step_indicator, :css => '[data-id="stepIndicator[timeline]"]')
+  element(:timeline_widget_header, :css => '[data-id="wizardStep[timeline]"] .FormHeader__NoMarginH2-sc-5b5iop-0')
   element(:timeline_widget_timezone, :css => '[data-id="wizardStep[timeline]"] .react-select__indicators')
   text_field(:timeline_widget_announce_date, :css => '[name="announceDate"]')
 
@@ -86,10 +88,11 @@ class DiceNewEvent < DiceBasePage
     sleep 4
 
     self.basic_widget_menu_options_element.click
+    is_venue_map_loaded
   end
 
   def go_to_timeline_step
-    self.timeline_widget_step_indicator
+    self.timeline_widget_step_indicator_element
   end
 
   def fill_in_event_timeline
@@ -104,7 +107,7 @@ class DiceNewEvent < DiceBasePage
     self.timeline_widget_off_sale_date = format_event_date(off_sale_date)
     self.timeline_widget_start_date = format_event_date(event_start_date)
     self.timeline_widget_end_date = format_event_date(event_end_date)
-    sleep 4
+    # sleep 4
   end
 
   def go_to_information_step
@@ -181,12 +184,19 @@ class DiceNewEvent < DiceBasePage
   end
 
   def select_event_timezone(timezone)
+    execute_script('arguments[0].scrollIntoView(true);', timeline_widget_header_element)
     self.timeline_widget_timezone_element.click
 
     select_menu_option(self.select_options_elements, timezone)
   end
 
   private
+
+  def is_venue_map_loaded
+    wait_until(10, "Venue map not loaded") do
+      self.basic_widget_venue_map?
+    end
+  end
 
   def format_event_date(event_date)
     event_date.strftime("%a, %d %b %Y, %I:%M %p")

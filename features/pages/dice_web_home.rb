@@ -64,7 +64,7 @@ class DiceWebHome < DiceBasePage
     self.search_country_code = '+44'
     self.select_country_code_element.click
     self.user_phone_number = '7455227865'
-    submitButton
+    submit_button
     self.code_input = '1111'
     sleep(5)
 

@@ -100,8 +100,8 @@ class DiceNewEvent < DiceBasePage
     todays_date = Date.today
     event_announce_date = Date.today - 1
     off_sale_date = Date.today + 1
-    event_start_date = Date.today + 6
-    event_end_date = Date.today + 7
+    event_start_date = Date.today + 4
+    event_end_date = Date.today + 5
 
     self.timeline_widget_announce_date = format_event_date(event_announce_date)
     self.timeline_widget_on_sale_date = format_event_date(todays_date)
@@ -151,15 +151,24 @@ class DiceNewEvent < DiceBasePage
       current_url.include? 'edit'
     end
 
-    sleep 5
+    sleep 10
+    if (review_popup?)
+      puts "Reviewing the event"
+    else
+      submit_button
+      wait_until(30, 'review modal not found') do
+        self.review_popup?
+      end
+    end
 
-    if(save_event_button == "CONTINUE")
-      self.save_event_button
-    end
-    wait_until(30, 'review modal not found') do
-      self.review_popup?
-    end
+    # wait_until(30, 'review modal not found') do
+    #
+    # end
   end
+
+  # if(save_event_button == "CONTINUE")
+  #   self.save_event_button
+  # end
 
   def publish_event
     self.submit_event_button
@@ -196,7 +205,6 @@ class DiceNewEvent < DiceBasePage
   end
 
   private
-
   def is_venue_map_loaded
     wait_until(30, "Venue map not loaded") do
       self.basic_widget_venue_map?
@@ -210,5 +218,4 @@ class DiceNewEvent < DiceBasePage
   def generate_event_title
     "ft. Test Live Gig " + Time.now.to_i.to_s
   end
-
 end

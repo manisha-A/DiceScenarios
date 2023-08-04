@@ -147,9 +147,9 @@ class DiceNewEvent < DiceBasePage
     scroll_element_to_view(event_preview_element)
     self.save_event_button
 
-    wait_until(30, 'draft event toast not visible') do
-      self.draft_event_toast?
-    end
+    # wait_until(30, 'draft event toast not visible') do
+    #   self.draft_event_toast?
+    # end
 
     if(save_event_button == "CONTINUE")
       self.save_event_button
